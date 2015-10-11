@@ -1,9 +1,11 @@
-package com.example.user.weatherapp;
+package com.example.user.weatherapp.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.user.weatherapp.R;
 
 public class WeatherMainActivity extends AppCompatActivity {
 
