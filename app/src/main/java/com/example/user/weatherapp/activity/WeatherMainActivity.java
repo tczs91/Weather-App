@@ -27,6 +27,7 @@ import com.example.user.weatherapp.R;
 import com.example.user.weatherapp.asynctask.DownloadWeatherDataAsyncTask;
 import com.example.user.weatherapp.model.WeatherDay;
 import com.example.user.weatherapp.sensor.LocationFinder;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
         downloadTask = new DownloadWeatherDataAsyncTask(this,this);
         progressDialog = new ProgressDialog(this);
 
-        //Test weather data download
+
         //wire up
         locationTextView = (TextView) findViewById(R.id.locationTextView);
         reLocateButton = (ImageButton) findViewById(R.id.relocateButton);
@@ -142,18 +143,7 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
         mWeatherDay = jsonForecast;
 
         populateListView();
-
         locationTextView.setText(jsonForecast.get(0).getLocation());
-        /*Picasso.with(this).load(jsonForecast.get(0).getIconUrl()).into(weatherIconImageView);
-        double dtemphighC = jsonForecast.get(0).getHighTempC();
-        double dtemplowC = jsonForecast.get(0).getLowTempC();
-
-        String temperature = String.valueOf(dtemphighC)+ String.valueOf(dtemplowC);
-        temperatureTextView.setText(temperature);
-        locationTextView.setText(jsonForecast.get(0).getLocation());
-        conditionTextView.setText(jsonForecast.get(0).getConditions());
-        weekDayTextView.setText(jsonForecast.get(0).getWeekDay());*/
-
     }
 
     @Override
@@ -193,7 +183,7 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
             //fill the view
             ImageView imageView = (ImageView) itemView.findViewById(R.id.conditionIconImageView);
 
-             //Picasso.with(WeatherMainActivity.this).load(currentDay.getIconUrl()).into();
+             Picasso.with(WeatherMainActivity.this).load(currentDay.getIconUrl()).into(imageView);
             //Week Day:
             TextView weekDayText = (TextView) itemView.findViewById(R.id.weekDayTextView);
             weekDayText.setText(currentDay.getWeekDay());
