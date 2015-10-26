@@ -9,4 +9,11 @@
     <string name="title_activity_setting">SettingActivity</string>
 
     <string name="setting_button">Settings</string>
+    <string name="temperature_measurement">Temperature measurement:</string>
+    <string name="celsius_btn">Celsius</string>
+    <string name="fahrenheit_btn">Fahrenheit</string>
+    <string name="days_to_display">Days to display:</string>
+    <string name="zip_code">Locate by a zip code:</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="submit_btn">Submit</string>
 </resources>

@@ -3,6 +3,7 @@ package com.example.user.weatherapp.activity;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -38,9 +39,9 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
     private final String TAG = "WeatherMainActivity";
 
     //Test Download Weather Data
-    private TextView locationTextView;
-    private ImageButton reLocateButton;
-    private Button settingButton;
+    private TextView mLocationTextView;
+    private ImageButton mReLocateButton;
+    private Button mSettingButton;
 
     private List<WeatherDay> mWeatherDay = new ArrayList<WeatherDay>();
     private Location mlocation;
@@ -59,9 +60,17 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
 
 
         //wire up
-        locationTextView = (TextView) findViewById(R.id.locationTextView);
-        reLocateButton = (ImageButton) findViewById(R.id.relocateButton);
-        settingButton = (Button) findViewById(R.id.settingButton);
+        mLocationTextView = (TextView) findViewById(R.id.locationTextView);
+        mReLocateButton = (ImageButton) findViewById(R.id.relocateButton);
+        mSettingButton = (Button) findViewById(R.id.settingButton);
+        mSettingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WeatherMainActivity.this, SettingActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
 
         //inform user of intent to use their location (only for Android 6.0+)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
@@ -143,7 +152,7 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
         mWeatherDay = jsonForecast;
 
         populateListView();
-        locationTextView.setText(jsonForecast.get(0).getLocation());
+        mLocationTextView.setText(jsonForecast.get(0).getLocation());
     }
 
     @Override
