@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WeekDay"
+        android:id="@+id/weekDayTextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/conditionIconImageView"
+        android:paddingLeft="150dp"
+        android:layout_toRightOf="@+id/weekDayTextView"
+        android:layout_toEndOf="@+id/weekDayTextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/weekDayTextView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TempHigh"
+        android:id="@+id/tempHighTextView"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/tempLowTextView"
+        android:paddingRight="60dp"/>
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text="TempLow"
+        android:id="@+id/tempLowTextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

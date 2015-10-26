@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">WeatherApp</string>
 
-    <string name="hello_world">Hello world!</string>
+
+    <string name="location_permission_title">Location Permission</string>
+    <string name="location_permission_message">The app will now request access to your location so that we can get the weather information for your location.</string>
+
     <string name="action_settings">Settings</string>
     <string name="title_activity_setting">SettingActivity</string>
+
+    <string name="setting_button">Settings</string>
 </resources>
