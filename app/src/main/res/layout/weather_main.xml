@@ -34,14 +34,14 @@
         android:layout_alignBottom="@+id/settingButton"
         android:layout_centerHorizontal="true"/>
 
-    <ImageButton
+    <!--<ImageButton
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/relocateButton"
         android:layout_above="@+id/locationTextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_weight="0.41"/>
+        android:layout_weight="0.41"/>-->
 
 </LinearLayout>
 

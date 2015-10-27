@@ -15,112 +15,106 @@ import android.util.Log;
 /**
  * Created by Theon_Z on 15/10/12.
  */
-public class LocationFinder implements LocationListener {
-    private static final String TAG = "LocationFinder";
-    private Context mContext;
-    private LocationDetector mLocationDetector;
+    public class LocationFinder implements LocationListener {
 
-    private final int TIMEOUT_IN_MS = 10000; //10 second timeout
+        private Context mContext;
+        private LocationDetector mLocationDetector;
+        private LocationManager mLocationManager;
+        private final int TIMEOUT_IN_MS = 10000;
+        private boolean mIsDetectingLocation = false;
 
-    private boolean mIsDetectingLocation = false;
-
-    //built into Android
-    private LocationManager mLocationManager;
-
-    public enum FailureReason{
-        NO_PERMISSION,
-        TIMEOUT
-    }
-
-    public interface LocationDetector{
-        void locationFound(Location location);
-        void locationNotFound(FailureReason failureReason);
-    }
-
-    public LocationFinder(Context context, LocationDetector locationDetector){
-        mContext = context;
-        mLocationDetector = locationDetector;
-    }
-
-    public void detectLocation(){
-        if(mIsDetectingLocation == false){
-            mIsDetectingLocation = true;
-
-            if(mLocationManager == null){
-                mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-            }
-
-
-            if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this, null);
-                startTimer();
-            }
-            else {
-                endLocationDetection();
-                mLocationDetector.locationNotFound(FailureReason.NO_PERMISSION);
-            }
+        public enum FailureReason{
+            NO_PERMISSION,
+            TIMEOUT
         }
-        else{
-            Log.d(TAG, "already trying to detect location");
+
+        public interface LocationDetector{
+            void locationFound(Location location);
+            void locationNotFound(FailureReason failureReason);
         }
-    }
 
-    private void endLocationDetection(){
-        if(mIsDetectingLocation) {
-            mIsDetectingLocation = false;
-
-            if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                mLocationManager.removeUpdates(this);
-            }
+        public LocationFinder(Context context, LocationDetector locationDetector){
+            mContext = context;
+            mLocationDetector = locationDetector;
         }
-    }
+        public void detectLocation(){
+            if(mIsDetectingLocation == false){
+                mIsDetectingLocation = true;
 
-    private void startTimer(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(mIsDetectingLocation){
-                    fallbackOnLastKnownLocation();
+                if(mLocationManager == null){
+                    mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+                }
+
+                if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, null);
+                    startTimer();
+                }
+                else {
+                    endLocationDetection();
+                    mLocationDetector.locationNotFound(FailureReason.NO_PERMISSION);
                 }
             }
-        }, TIMEOUT_IN_MS);
-
-    }
-
-    private void fallbackOnLastKnownLocation(){
-        Location lastKnownLocation = null;
-
-        if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            lastKnownLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            else{
+                Log.d("time", "already trying to detect location");
+            }
         }
 
-        if(lastKnownLocation != null){
-            mLocationDetector.locationFound(lastKnownLocation);
+        private void startTimer(){
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(mIsDetectingLocation){
+                        fallbackOnLastKnownLocation();
+                    }
+                }
+            }, TIMEOUT_IN_MS);
+
         }
-        else{
-            mLocationDetector.locationNotFound(FailureReason.TIMEOUT);
+
+        private void fallbackOnLastKnownLocation(){
+            Location lastKnownLocation = null;
+
+            if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                lastKnownLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            }
+
+            if(lastKnownLocation != null){
+                mLocationDetector.locationFound(lastKnownLocation);
+            }
+            else{
+                mLocationDetector.locationNotFound(FailureReason.TIMEOUT);
+            }
+
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+            mLocationDetector.locationFound(location);
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+
+        private void endLocationDetection(){
+            if(mIsDetectingLocation) {
+                mIsDetectingLocation = false;
+
+                if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    mLocationManager.removeUpdates(this);
+                }
+            }
         }
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        mLocationDetector.locationFound(location);
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
-}

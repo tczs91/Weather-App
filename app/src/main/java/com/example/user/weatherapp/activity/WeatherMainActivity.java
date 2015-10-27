@@ -19,10 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.user.weatherapp.R;
 import com.example.user.weatherapp.asynctask.DownloadWeatherDataAsyncTask;
@@ -35,12 +35,13 @@ import java.util.List;
 
 public class WeatherMainActivity extends AppCompatActivity implements DownloadWeatherDataAsyncTask.DownloadWeatherCompletionListener, LocationFinder.LocationDetector{
     private static  final  int LOCATION_ACCESS_REQUEST_CODE = 1; //this can be any number
-
+    private String mLongitude;
+    private String mLatitude;
+    private String mQuery;
     private final String TAG = "WeatherMainActivity";
 
     //Test Download Weather Data
     private TextView mLocationTextView;
-    private ImageButton mReLocateButton;
     private Button mSettingButton;
 
     private List<WeatherDay> mWeatherDay = new ArrayList<WeatherDay>();
@@ -48,6 +49,8 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
 
 
     private ProgressDialog progressDialog;
+    private ProgressDialog weatherProgressDialog;
+
     private DownloadWeatherDataAsyncTask downloadTask;
 
     @Override
@@ -55,13 +58,12 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_main);
 
-        downloadTask = new DownloadWeatherDataAsyncTask(this,this);
+        //downloadTask = new DownloadWeatherDataAsyncTask(this,this);
         progressDialog = new ProgressDialog(this);
-
+        weatherProgressDialog = new ProgressDialog(this);
 
         //wire up
         mLocationTextView = (TextView) findViewById(R.id.locationTextView);
-        mReLocateButton = (ImageButton) findViewById(R.id.relocateButton);
         mSettingButton = (Button) findViewById(R.id.settingButton);
         mSettingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,20 +92,21 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
         }
 
         //detect the user location
-        /*LocationFinder locationFinder = new LocationFinder(this,this);
+        LocationFinder locationFinder = new LocationFinder(this,this);
         locationFinder.detectLocation();
-        String longtitude = String.valueOf(mlocation.getLongitude());
-        String latitude = String.valueOf(mlocation.getLatitude());
-*/
-        progressDialog.setMessage("Loading...");
+
+
+
+        progressDialog.setMessage("Locating...");
         progressDialog.show();
         //Use VA/Arlington as the location to test
 
-        //String query = latitude + "," +longtitude;
+        //mQuery = mLatitude + "," +mLongitude;
 
-        String query = "VA/Arlington";
+        //String query = "VA/Arlington";
+
         //// TODO: 10/25/15 find the user's location
-        downloadTask.execute(query);
+        //downloadTask.execute(mQuery);
 
         
     }
@@ -148,7 +151,7 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
 
     @Override
     public void weatherDataDownloaded(List<WeatherDay> jsonForecast) {
-        progressDialog.hide();
+        weatherProgressDialog.hide();
         mWeatherDay = jsonForecast;
 
         populateListView();
@@ -157,19 +160,32 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
 
     @Override
     public void weatherDataFailToDownload(Exception exception) {
-        progressDialog.hide();
+        weatherProgressDialog.hide();
         Log.d(TAG, "Weather information not found");
+        Toast.makeText(WeatherMainActivity.this, "Weather information download failed, please try again...", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void locationFound(Location location) {
         Log.d(TAG,"location found");
+        progressDialog.hide();
         mlocation = location;
+        mLongitude = String.valueOf(mlocation.getLongitude());
+        mLatitude = String.valueOf(mlocation.getLatitude());
+        mQuery = mLatitude + "," + mLongitude;
+
+        weatherProgressDialog.setMessage("Downloading weather Data...");
+        weatherProgressDialog.show();
+
+        downloadTask = new DownloadWeatherDataAsyncTask(this,this);
+        downloadTask.execute(mQuery);
     }
 
     @Override
     public void locationNotFound(LocationFinder.FailureReason failureReason) {
-        Log.d(TAG,"location not found");
+        progressDialog.hide();
+        Log.d(TAG, "location not found");
+        Toast.makeText(WeatherMainActivity.this, "Location not found, please try again...", Toast.LENGTH_LONG).show();
     }
 
     private class WeatherListAdapter extends ArrayAdapter<WeatherDay> {

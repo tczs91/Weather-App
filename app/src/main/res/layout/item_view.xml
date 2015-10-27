@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/conditionIconImageView"
-        android:paddingLeft="120dp"
+        android:paddingLeft="50dp"
         android:layout_toRightOf="@+id/weekDayTextView"
         android:layout_toEndOf="@+id/weekDayTextView"
         android:layout_alignParentTop="true"
