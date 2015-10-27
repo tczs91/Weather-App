@@ -46,15 +46,14 @@
         android:layout_below="@+id/btn_group"
         android:layout_marginTop="10dp"/>
 
-    <EditText
-        android:layout_width="match_parent"
+    <Spinner
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:hint="(1 through 10)"
-        android:id="@+id/daysToDispEditText"
+        android:id="@+id/dayDispSpinner"
         android:layout_below="@+id/daysToDisplayTextView"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="0dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,18 +61,26 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/zip_code"
         android:id="@+id/zipCodeTextView"
-        android:layout_below="@+id/daysToDispEditText"
+        android:layout_below="@+id/dayDispSpinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_zip_checkbox"
+        android:id="@+id/useZipCheckBox"
+        android:layout_below="@+id/zipCodeTextView"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
+        android:hint="enter a zip code here"
         android:id="@+id/zipCodeEditText"
-        android:layout_below="@+id/zipCodeTextView"
+        android:layout_below="@+id/useZipCheckBox"
         android:layout_centerHorizontal="true"/>
     <Button
         android:layout_width="match_parent"
@@ -92,8 +99,6 @@
         android:layout_below="@+id/btn_submit"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
-
-
 
 
 </RelativeLayout>

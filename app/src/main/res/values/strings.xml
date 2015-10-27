@@ -16,4 +16,18 @@
     <string name="zip_code">Locate by a zip code:</string>
     <string name="cancel_btn">Cancel</string>
     <string name="submit_btn">Submit</string>
+    <string name="btn_detect_location">Locate</string>
+    <string name="user_zip_checkbox">Use zip code</string>
+    <string-array name="disp_days">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
 </resources>

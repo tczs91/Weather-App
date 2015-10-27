@@ -4,10 +4,12 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -40,13 +42,19 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
     private String mQuery;
     private final String TAG = "WeatherMainActivity";
 
-    //Test Download Weather Data
     private TextView mLocationTextView;
     private Button mSettingButton;
 
     private List<WeatherDay> mWeatherDay = new ArrayList<WeatherDay>();
+    private List<WeatherDay> mListWeatherDay = new ArrayList<WeatherDay>();
     private Location mlocation;
 
+    //Variables used to get the sharedpreferences
+    private String mTemperatureMeasurement;
+    private String mLanguage;
+    private String mZipCodePref;
+    private String mDaysToDisplay;
+    private Boolean mIsUsingZipCode;
 
     private ProgressDialog progressDialog;
     private ProgressDialog weatherProgressDialog;
@@ -58,7 +66,11 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_main);
 
-        //downloadTask = new DownloadWeatherDataAsyncTask(this,this);
+        //Load SharedPrefs
+        LoadPrefs();
+
+        final LocationFinder locationFinder = new LocationFinder(this, this);
+
         progressDialog = new ProgressDialog(this);
         weatherProgressDialog = new ProgressDialog(this);
 
@@ -73,6 +85,7 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
                 startActivity(intent);
             }
         });
+
 
         //inform user of intent to use their location (only for Android 6.0+)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
@@ -91,24 +104,19 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
                     .show();
         }
 
-        //detect the user location
-        LocationFinder locationFinder = new LocationFinder(this,this);
-        locationFinder.detectLocation();
+        //detect the user location if IsUsingZipCode == false
+        if(mIsUsingZipCode == false) {
+            locationFinder.detectLocation();
+            progressDialog.setMessage("Locating...");
+            progressDialog.show();
+        } else {
+            mQuery = mZipCodePref;
+            weatherProgressDialog.setMessage("Downloading weather Data...");
+            weatherProgressDialog.show();
 
-
-
-        progressDialog.setMessage("Locating...");
-        progressDialog.show();
-        //Use VA/Arlington as the location to test
-
-        //mQuery = mLatitude + "," +mLongitude;
-
-        //String query = "VA/Arlington";
-
-        //// TODO: 10/25/15 find the user's location
-        //downloadTask.execute(mQuery);
-
-        
+            downloadTask = new DownloadWeatherDataAsyncTask(this,this);
+            downloadTask.execute(mQuery);
+        }
     }
 
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
@@ -153,6 +161,11 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
     public void weatherDataDownloaded(List<WeatherDay> jsonForecast) {
         weatherProgressDialog.hide();
         mWeatherDay = jsonForecast;
+        int dispDays = Integer.valueOf(mDaysToDisplay).intValue();
+        for(int n=0; n< dispDays ;n++) {
+            WeatherDay currentDay = mWeatherDay.get(n);
+            mListWeatherDay.add(currentDay);
+        }
 
         populateListView();
         mLocationTextView.setText(jsonForecast.get(0).getLocation());
@@ -190,7 +203,7 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
 
     private class WeatherListAdapter extends ArrayAdapter<WeatherDay> {
         public WeatherListAdapter(){
-            super(WeatherMainActivity.this, R.layout.item_view, mWeatherDay);
+            super(WeatherMainActivity.this, R.layout.item_view, mListWeatherDay);
 
         }
 
@@ -203,7 +216,7 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
             }
 
             //find the weatherDay to work with.
-            WeatherDay currentDay = mWeatherDay.get(position);
+            WeatherDay currentDay = mListWeatherDay.get(position);
 
             //fill the view
             ImageView imageView = (ImageView) itemView.findViewById(R.id.conditionIconImageView);
@@ -213,13 +226,27 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
             TextView weekDayText = (TextView) itemView.findViewById(R.id.weekDayTextView);
             weekDayText.setText(currentDay.getWeekDay());
 
-            //High temperature:
-            TextView tempHighText = (TextView) itemView.findViewById(R.id.tempHighTextView);
-            tempHighText.setText(String.valueOf(currentDay.getHighTempC()) + "\u00B0");
+            //Use mTemperatureMeasurement to decide to use Celsius or Fahrenheit
+            if(mTemperatureMeasurement.equals("Celsius")) {
 
-            //Low temperature:
-            TextView tempLowText = (TextView) itemView.findViewById(R.id.tempLowTextView);
-            tempLowText.setText(String.valueOf(currentDay.getLowTempC()) +"\u00B0");
+                //High temperature:
+                TextView tempHighText = (TextView) itemView.findViewById(R.id.tempHighTextView);
+                tempHighText.setText(String.valueOf(currentDay.getHighTempC()) + "\u00B0");
+
+                //Low temperature:
+                TextView tempLowText = (TextView) itemView.findViewById(R.id.tempLowTextView);
+                tempLowText.setText(String.valueOf(currentDay.getLowTempC()) +"\u00B0");
+            } else {
+
+                //High temperature:
+                TextView tempHighText = (TextView) itemView.findViewById(R.id.tempHighTextView);
+                tempHighText.setText(String.valueOf(currentDay.getHighTempF()) + "\u00B0");
+
+                //Low temperature:
+                TextView tempLowText = (TextView) itemView.findViewById(R.id.tempLowTextView);
+                tempLowText.setText(String.valueOf(currentDay.getLowTempF()) +"\u00B0");
+            }
+
             return itemView;
         }
     }
@@ -228,5 +255,28 @@ public class WeatherMainActivity extends AppCompatActivity implements DownloadWe
         ListView weatherListView = (ListView) findViewById(R.id.weatherListView);
         ArrayAdapter<WeatherDay> adapter = new WeatherListAdapter();
         weatherListView.setAdapter(adapter);
+    }
+
+    private void LoadPrefs() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        mDaysToDisplay = sp.getString("DaysToDisplay", "3");
+        mLanguage = sp.getString("Language", "ENG");
+        mTemperatureMeasurement = sp.getString("TempMeasurement", "Fahrenheit");
+        mZipCodePref = sp.getString("ZipCode", "22202");
+        mIsUsingZipCode = sp.getBoolean("IsUsingZipCode", false);
+    }
+
+    private  void SavePrefs(String key, String value) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString(key, value);
+        edit.commit();
+    }
+
+    private  void SavePrefs(String key, Boolean value) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putBoolean(key,value);
+        edit.commit();
     }
 }
