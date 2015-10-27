@@ -2,18 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/Theon_Z/.gradle/caches/modules-2/files-2.1/com.koushikdutta.async/androidasync/2.1.6/e3d5f6ab2003e31f2cf5ea61b4731a21e9517935/androidasync-2.1.6.jar"
+        jar="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="e3d5f6ab2003e31f2cf5ea61b4731a21e9517935">
-        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/androidasync-2.1.6-b4f72eb4cc918f787a048729f4d377991f2068ff.jar" />
-    </item>
-    <item
-        jar="/Users/Theon_Z/.gradle/caches/modules-2/files-2.1/com.koushikdutta.ion/ion/2.1.6/cd55ef3ba6d8b62838b658ba2507b019dffb3a08/ion-2.1.6.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="cd55ef3ba6d8b62838b658ba2507b019dffb3a08">
-        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/ion-2.1.6-918f1e6710ca74730231435a371d794e529deaf2.jar" />
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/classes-4deeb69b0875dc536d523990cf27a0f39d27d098.jar" />
     </item>
     <item
         jar="/Users/Theon_Z/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
@@ -23,39 +16,11 @@
         <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-63fa7e67b73150d111a2628f928613f10c1e5678.jar" />
     </item>
     <item
-        jar="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jar="/Users/Theon_Z/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-6ebee31be18f48b12e2f45783d3b4c5c984fc823.jar" />
-    </item>
-    <item
-        jar="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/classes-4deeb69b0875dc536d523990cf27a0f39d27d098.jar" />
-    </item>
-    <item
-        jar="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/classes-80c473ced68d9eb8d9de6a5705adbefe4b7077da.jar" />
-    </item>
-    <item
-        jar="/Users/Theon_Z/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.0/6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd/bolts-android-1.2.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
-        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.0-93da8e59cf72793af7452dee8ab1827b36ca0c57.jar" />
-    </item>
-    <item
-        jar="/Users/Theon_Z/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3/5fc52c41ef0239d1093a1eb7c3697036183677ce/gson-2.3.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
-        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/gson-2.3-551e1c7d519e91d76fdccc37a7a306dccbb99299.jar" />
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/commons-io-2.4-74b4468faf6a066e7ceb09e77fad8f4c1be9f184.jar" />
     </item>
     <item
         jar="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
@@ -65,18 +30,25 @@
         <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/classes-8c480167696eca2b1c8ea4012df1299c67ec8f77.jar" />
     </item>
     <item
+        jar="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/classes-80c473ced68d9eb8d9de6a5705adbefe4b7077da.jar" />
+    </item>
+    <item
+        jar="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-6ebee31be18f48b12e2f45783d3b4c5c984fc823.jar" />
+    </item>
+    <item
         jar="/Users/Theon_Z/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
         <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/picasso-2.5.2-db0c72e1481f754e59f635f0b7bc010b8c3e6575.jar" />
-    </item>
-    <item
-        jar="/Users/Theon_Z/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
-        <dex dex="/Users/Theon_Z/Documents/WeatherApp/app/build/intermediates/pre-dexed/debug/commons-io-2.4-74b4468faf6a066e7ceb09e77fad8f4c1be9f184.jar" />
     </item>
 
 </items>
